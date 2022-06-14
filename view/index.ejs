@@ -15,74 +15,33 @@
     <div class="container">
         <div class="text-center">
             <h1>Mural de Notas</h1>
-            <input id="title" type="text" placeholder="Insira uma nota" />
-            <input id="description" type="text" placeholder="Insira uma nota" />
+            <input id="title" type="text" placeholder="Insira uma título" />
+            <input id="description" type="text" placeholder="Insira uma descrição" />
             <button id="submit" class="btn btn-primary">Enviar</button>
         </div>
 
-
-        <%for(let teste of notes) {%>
+        <%for(let note of notes) {%>
 
             <div class="card my-3">
                 <div class="card-header">
                     <h5 class="card-title">
-                        Título: <%=teste.title%>
+                        Título: <%=note.title%>
                     </h5>
                 </div>
                 <div class="card-body">
                     <h6 class="card-subtitle mb-3 text-muted">
-                        Descrição: <%=teste.description%>
+                        Descrição: <%=note.description%>
                     </h6>
-                    <button id="<%=teste.id%>" class="btn btn-danger delete">Apagar Nota</button>
+                    <button id="<%=note.id%>" class="btn btn-danger delete">Apagar Nota</button>
                 </div>
             </div>
 
             <%}%>
     </div>
 
-    <script>
-
-        const submit = document.querySelector('#submit')
-        submit.addEventListener('click', createNote)
-
-        function createNote() {
-            const title = document.querySelector('#title').value
-            const description = document.querySelector('#description').value
-
-            const options = {
-                method: 'POST',
-                headers: { 'Content-type': 'application/json' },
-                body: JSON.stringify({ title, description })
-            }
-
-            fetch(`http://localhost:3000/api/newNote`, options).then((res) => {
-                if (res.status === 200) {
-                    location.reload()
-                }
-
-            })
-
-        }
-
-        const remove = document.querySelectorAll('.delete')
-        remove.forEach((item) => {
-            item.addEventListener('click', deleteNote)
-        })
-
-        function deleteNote(e) {
-
-            const options = {
-                method: 'delete'
-            }
-
-            fetch(`http://localhost:3000/api/deleteNote/${e.target.id}`, options)
-
-            location.reload()
-        }
-
-
-    </script>
-
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <%-include('./script.ejs')%>
+    
 </body>
 
 </html>

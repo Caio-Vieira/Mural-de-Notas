@@ -1,0 +1,53 @@
+<script>
+
+const submit = document.querySelector('#submit')
+submit.addEventListener('click', createNote)
+
+function createNote() {
+    const title = document.querySelector('#title').value
+    const description = document.querySelector('#description').value
+
+    if (title === "" || description === "") {
+        return swal("Nota não criada", "Os campos não podem ser vazios!", "error");
+    }
+
+    const options = {
+        method: 'POST',
+        headers: { 'Content-type': 'application/json' },
+        body: JSON.stringify({ title, description })
+    }
+
+    fetch(`http://localhost:3000/api/newNote`, options).then((res) => {
+
+        if (res.status === 200) {
+            swal(`Nota criada`, "Parabéns a nota foi criada", "success");
+            setTimeout(() => {
+                location.reload()
+            }, 1200)
+        }
+
+    })
+
+}
+
+const remove = document.querySelectorAll('.delete')
+remove.forEach((item) => {
+    item.addEventListener('click', deleteNote)
+})
+
+function deleteNote(e) {
+
+    if (confirm("Deseja mesmo excluir essa nota")) {
+
+        const options = {
+            method: 'delete'
+        }
+
+        fetch(`http://localhost:3000/api/deleteNote/${e.target.id}`, options)
+
+        location.reload()
+    }
+
+}
+
+</script>
